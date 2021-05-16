@@ -23,4 +23,4 @@ test-unit: ## run unit tests
 
 .PHONY: test
 test: ## run all tests
-	poetry run pytest tests -vv -s -cov-report term-missing --cov=src
+	poetry run pytest tests -vv --cov-report term-missing --cov=src

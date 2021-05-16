@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "python_clean_architecture_boilerplate"
+name = "python-clean-architecture-boilerplate"
 version = "0.1.0"
 description = ""
 authors = ["Fabio Gallotti <fabio.gallotti.93@gmail.com>"]
@@ -28,7 +28,7 @@ local = ["pre-commit", "python-dotenv", "uvicorn"]
 
 [tool.black]
 line-length = 100
-target-version = ["py39"]
+target-version = ["py38"]
 exclude = '''
 (
   /(
