@@ -8,26 +8,26 @@ on:
 
 env:
   PYTHON_VERSION: 3.9
-  POETRY_VERSION: 1.1.6
+  POETRY_VERSION: 1.1.13
 
 jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: webfactory/ssh-agent@v0.4.1
+      - uses: actions/checkout@v3
+      - uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{secrets.SSH_PRIVATE_KEY}}
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v3
         with:
           python-version: ${{env.PYTHON_VERSION}}
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         id: poetry-cache
         with:
           path: ~/.poetry
           key: ${{runner.os}}-poetry-${{hashFiles('**/poetry.lock')}}
           restore-keys: ${{runner.os}}-poetry-
-      - uses: Gr1N/setup-poetry@v4
+      - uses: Gr1N/setup-poetry@v7
         with:
           poetry-version: ${{env.POETRY_VERSION}}
       - name: Configure poetry
@@ -48,20 +48,20 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: webfactory/ssh-agent@v0.4.1
+      - uses: actions/checkout@v3
+      - uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{secrets.SSH_PRIVATE_KEY}}
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v3
         with:
           python-version: ${{env.PYTHON_VERSION}}
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         id: poetry-cache
         with:
           path: ~/.poetry
           key: ${{runner.os}}-poetry-${{hashFiles('**/poetry.lock')}}
           restore-keys: ${{runner.os}}-poetry-
-      - uses: Gr1N/setup-poetry@v4
+      - uses: Gr1N/setup-poetry@v7
         with:
           poetry-version: ${{env.POETRY_VERSION}}
       - name: Configure poetry

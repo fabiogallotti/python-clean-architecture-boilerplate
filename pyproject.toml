@@ -6,21 +6,23 @@ authors = ["Fabio Gallotti <fabio.gallotti.93@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-fastapi = "^0.65.1"
-mangum = "^0.11.0"
-pydantic = "^1.8.2"
-pre-commit = {version = "^2.12.1", optional = true}
-python-dotenv = {version = "^0.17.1", optional = true}
-uvicorn = {version = "^0.13.4", optional = true}
+fastapi = "^0.78.0"
+mangum = "^0.15.0"
+pydantic = "^1.9.1"
+requests = "^2.27.1"
+# extras
+pre-commit = {version = "^2.19.0", optional = true}
+python-dotenv = {version = "^0.20.0", optional = true}
+uvicorn = {version = "^0.17.6", optional = true}
 
 [tool.poetry.dev-dependencies]
-black = "^21.5b1"
-flake8 = "^3.9.2"
-isort = "^5.8.0"
-pytest = "^6.2.4"
-pytest-cov = "^2.12.0"
-pytest-mock = "^3.6.1"
-requests = "^2.25.1"
+black = "^22.3.0"
+flake8 = "^4.0.1"
+isort = "^5.10.1"
+pytest = "^7.1.2"
+pytest-cov = "^3.0.0"
+pytest-icdiff = "^0.5"
+pytest-mock = "^3.7.0"
 
 [tool.poetry.extras]
 # local extras are used only on the local machine
@@ -28,7 +30,7 @@ local = ["pre-commit", "python-dotenv", "uvicorn"]
 
 [tool.black]
 line-length = 100
-target-version = ["py38"]
+target-version = ["py39"]
 exclude = '''
 (
   /(
