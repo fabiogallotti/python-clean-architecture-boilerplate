@@ -1,0 +1,76 @@
+name: Lint, Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  PYTHON_VERSION: 3.9
+  POETRY_VERSION: 1.1.13
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{secrets.SSH_PRIVATE_KEY}}
+      - uses: actions/setup-python@v3
+        with:
+          python-version: ${{env.PYTHON_VERSION}}
+      - uses: actions/cache@v3
+        id: poetry-cache
+        with:
+          path: ~/.poetry
+          key: ${{runner.os}}-poetry-${{hashFiles('**/poetry.lock')}}
+          restore-keys: ${{runner.os}}-poetry-
+      - uses: Gr1N/setup-poetry@v7
+        with:
+          poetry-version: ${{env.POETRY_VERSION}}
+      - name: Configure poetry
+        run: |
+          poetry config virtualenvs.create true
+          poetry config virtualenvs.in-project false
+          poetry config cache-dir ~/.poetry
+          poetry config virtualenvs.path ~/.poetry/venv
+      - name: Install dependencies
+        run: poetry install
+      - name: Check imports sort order
+        run: poetry run isort --check src tests
+      - name: Check formatting style
+        run: poetry run black --check src tests
+      - name: Check logic errors
+        run: poetry run flake8 src tests
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{secrets.SSH_PRIVATE_KEY}}
+      - uses: actions/setup-python@v3
+        with:
+          python-version: ${{env.PYTHON_VERSION}}
+      - uses: actions/cache@v3
+        id: poetry-cache
+        with:
+          path: ~/.poetry
+          key: ${{runner.os}}-poetry-${{hashFiles('**/poetry.lock')}}
+          restore-keys: ${{runner.os}}-poetry-
+      - uses: Gr1N/setup-poetry@v7
+        with:
+          poetry-version: ${{env.POETRY_VERSION}}
+      - name: Configure poetry
+        run: |
+          poetry config virtualenvs.create true
+          poetry config virtualenvs.in-project false
+          poetry config cache-dir ~/.poetry
+          poetry config virtualenvs.path ~/.poetry/venv
+      - name: Install dependencies
+        run: poetry install
+      - name: Run tests
+        run: make test
